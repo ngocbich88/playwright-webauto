@@ -1,0 +1,25 @@
+{
+  "name": "playwright-webauto",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "cucumber-js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@cucumber/cucumber": "^11.2.0",
+    "@cucumber/messages": "^27.2.0",
+    "@shelex/cypress-allure-plugin": "^2.41.0",
+    "@types/node": "^22.14.1",
+    "allure-cucumberjs": "^3.2.1",
+    "cucumber-html-reporter": "^7.2.0",
+    "playwright": "^1.51.1",
+    "playwright-test": "^14.1.9",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.8.3"
+  }
+}
