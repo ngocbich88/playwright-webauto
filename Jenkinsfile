@@ -13,9 +13,6 @@ pipeline {
                         // Ensure Git uses the correct private key
                         sh '''
                             # Ensure ssh-agent is running
-                            echo "Setting GIT_SSH_COMMAND"
-                            export GIT_SSH_COMMAND="ssh -i /tmp/ssh_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
-
                             # Fetch repository from GitHub
                             git clone git@github.com:ngocbich88/playwright-webauto.git
                         '''
