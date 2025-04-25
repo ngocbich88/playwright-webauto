@@ -6,7 +6,7 @@ pipeline {
     }
 
     stages {
-       stage('Checkout Code') {
+        stage('Checkout Code') {
             steps {
                 sshagent(['github-ssh-pem']) {
                     script {
@@ -18,12 +18,12 @@ pipeline {
                     }
                 }
             }
-       }
+        }
 
         stage('Install Dependencies') {
             steps {
                 sh 'npm ci'
-            }   
+            }
         }
 
         // stage('Install Playwright Browsers') {
@@ -38,21 +38,31 @@ pipeline {
             }
         }
 
+        stage('Generate Allure Report') {
+            steps {
+                script {
+                    // Generate the Allure report from the results folder
+                    sh 'allure generate allure-results --clean'  // This generates the report files
+                }
+            }
+        }
+
         stage('Archive Allure Results') {
             steps {
                 archiveArtifacts artifacts: 'allure-results/**/*.*', allowEmptyArchive: true
             }
         }
+
         stage('Publish Allure Report') {
-        steps {
-            allure([
-                includeProperties: false,
-                jdk: '',
-                results: [[path: 'allure-results']]
+            steps {
+                // Use the Allure Jenkins plugin to publish the results
+                allure([
+                    includeProperties: false,
+                    jdk: '',
+                    results: [[path: 'allure-results']]
                 ])
             }
         }
-
     }
 
     post {
