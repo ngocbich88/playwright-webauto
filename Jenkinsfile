@@ -58,7 +58,7 @@ pipeline {
         stage('Archive Allure Results') {
             steps {
                 // Archive Allure results (Ensure that the path matches your Docker container's filesystem)
-                archiveArtifacts artifacts: '/var/jenkins_home/workspace/playwrightwebauto/allure-results/**/*.*', allowEmptyArchive: true
+                archiveArtifacts artifacts: 'allure-results/**/*.*', allowEmptyArchive: true
             }
         }
 
