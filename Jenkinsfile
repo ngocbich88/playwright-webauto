@@ -8,8 +8,10 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                git 'https://github.com/your-org/your-repo.git'
-            }
+                sshagent(['github-ssh-kk']) {
+                    git 'git@github.com:ngocbich88/playwright-webauto.git'
+                    }
+                }
         }
 
         stage('Install Dependencies') {
