@@ -6,18 +6,27 @@ pipeline {
     }
 
     stages {
-        stage('Checkout Code') {
+       stage('Checkout Code') {
             steps {
-                sshagent(['github-ssh-kk']) {
-                    git 'git@github.com:ngocbich88/playwright-webauto.git'
+                script {
+                    // Ensure SSH directory exists and GitHub key is added to known_hosts
+                    sh '''
+                    mkdir -p ~/.ssh
+                    chmod 700 ~/.ssh
+                    ssh-keyscan github.com >> ~/.ssh/known_hosts
+                    chmod 644 ~/.ssh/known_hosts
+                    '''
+                    // SSH GitHub access using the added SSH key credential (ID should match)
+                    sshagent(['github-ssh']) {
+                        git 'git@github.com:ngocbich88/playwright-webauto.git'
                     }
                 }
-        }
+            }
 
         stage('Install Dependencies') {
             steps {
                 sh 'npm ci'
-            }
+            }   
         }
 
         stage('Install Playwright Browsers') {
