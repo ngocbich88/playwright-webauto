@@ -7,11 +7,12 @@ module.exports = {
       requireModule: ["ts-node/register"],
       format: ["allure-cucumberjs/reporter"],
       formatOptions: {
-        resultsDir: "allure-results",
+        // resultsDir: "allure-results",
+        resultsDir: "/var/jenkins_home/workspace/allure-results",
       },
       paths: ["features/**/*.feature"],
       parallel: 0
-    }
+    } 
   };
   
 
