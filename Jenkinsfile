@@ -8,7 +8,7 @@ pipeline {
     stages {
        stage('Checkout Code') {
             steps {
-                script {
+                sshagent(['github-ssh-pem']) {
                     // Ensure SSH directory exists and GitHub key is added to known_hosts
                     sh '''
                     mkdir -p ~/.ssh
@@ -17,10 +17,8 @@ pipeline {
                     chmod 644 ~/.ssh/known_hosts
                     '''
                     // SSH GitHub access using the added SSH key credential (ID should match)
-                    sshagent(['github-ssh-pem']) {
-                        git 'git@github.com:ngocbich88/playwright-webauto.git'
-                    }
-                }
+                    git 'git@github.com:ngocbich88/playwright-webauto.git'
+                 }
             }
        }
 
