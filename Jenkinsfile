@@ -34,7 +34,11 @@ pipeline {
 
         stage('Run Cucumber Tests') {
             steps {
-                sh 'npx cucumber-js'
+                script {
+                    // Run Cucumber tests and ensure allure-results are created
+                    sh 'npx cucumber-js'
+                    sh 'ls -al /var/jenkins_home/workspace/playwrightwebauto/allure-results'  // Debug: Ensure allure-results are created
+                }
             }
         }
 
@@ -42,27 +46,29 @@ pipeline {
             steps {
                 script {
                     // Generate the Allure report from the results folder
-                    sh 'allure generate allure-results --clean'  // This generates the report files
+                    sh 'allure generate /var/jenkins_home/workspace/playwrightwebauto/allure-results --clean -o /var/jenkins_home/workspace/playwrightwebauto/allure-report'
+                    sh 'ls -al /var/jenkins_home/workspace/playwrightwebauto/allure-report'  // Debug: Ensure the report is generated
                 }
             }
         }
 
         stage('Archive Allure Results') {
             steps {
-                archiveArtifacts artifacts: 'allure-results/**/*.*', allowEmptyArchive: true
+                // Archive Allure results (Ensure that the path matches your Docker container's filesystem)
+                archiveArtifacts artifacts: '/var/jenkins_home/workspace/playwrightwebauto/allure-results/**/*.*', allowEmptyArchive: true
             }
         }
 
         stage('Publish Allure Report') {
             steps {
-                // Use the Allure Jenkins plugin to publish the results
+                // Use Allure Jenkins plugin to publish the results
                 allure([
                     includeProperties: false,
                     jdk: '',
-                    results: [[path: 'allure-results']]
+                    results: [[path: '/var/jenkins_home/workspace/playwrightwebauto/allure-results']]
                 ])
             }
-        }
+        }   
     }
 
     post {
