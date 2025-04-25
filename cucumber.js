@@ -8,7 +8,7 @@ module.exports = {
       format: ["allure-cucumberjs/reporter"],
       formatOptions: {
         // resultsDir: "allure-results",
-        resultsDir: "/var/jenkins_home/workspace/allure-results",
+        resultsDir: "/var/jenkins_home/workspace/playwrightwebauto/allure-results",
       },
       paths: ["features/**/*.feature"],
       parallel: 0
