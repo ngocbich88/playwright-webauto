@@ -8,7 +8,7 @@ pipeline {
     stages {
        stage('Checkout Code') {
             steps {
-                 withCredentials([sshUserPrivateKey(credentialsId: 'github-ssh-pem', keyFileVariable: 'SSH_KEY')]) {
+                sshagent(['github-ssh-pem']) {
                     // Ensure SSH directory exists and GitHub key is added to known_hosts
                     sh '''
                     mkdir -p ~/.ssh
