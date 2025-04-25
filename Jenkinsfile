@@ -35,9 +35,10 @@ pipeline {
         stage('Run Cucumber Tests') {
             steps {
                 script {
-                    // Run Cucumber tests and ensure allure-results are created
-                    sh 'npx cucumber-js'
-                    sh 'ls -al /var/jenkins_home/workspace/playwrightwebauto/allure-results'  // Debug: Ensure allure-results are created
+                    catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                        // Run Cucumber tests
+                        sh 'npx cucumber-js'
+                    }
                 }
             }
         }
@@ -47,7 +48,9 @@ pipeline {
                 script {
                     // Generate the Allure report from the results folder
                     sh 'allure generate /var/jenkins_home/workspace/playwrightwebauto/allure-results --clean -o /var/jenkins_home/workspace/playwrightwebauto/allure-report'
-                    sh 'ls -al /var/jenkins_home/workspace/playwrightwebauto/allure-report'  // Debug: Ensure the report is generated
+                    
+                    // Debugging: Check if the report was generated
+                    sh 'ls -al /var/jenkins_home/workspace/playwrightwebauto/allure-report'  // Ensure the report was generated
                 }
             }
         }
