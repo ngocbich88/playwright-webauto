@@ -17,7 +17,7 @@ pipeline {
                     chmod 644 ~/.ssh/known_hosts
                     '''
                     // SSH GitHub access using the added SSH key credential (ID should match)
-                    sshagent(['github-ssh']) {
+                    sshagent(['github-ssh-pem']) {
                         git 'git@github.com:ngocbich88/playwright-webauto.git'
                     }
                 }
