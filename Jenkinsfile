@@ -14,7 +14,6 @@ pipeline {
                         sh '''
                             # Ensure ssh-agent is running
                             # Fetch repository from GitHub
-                            git clone git@github.com:ngocbich88/playwright-webauto.git
                         '''
                     }
                 }
