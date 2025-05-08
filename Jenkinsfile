@@ -1,6 +1,9 @@
 pipeline {
     agent any
 
+    tools {
+            allure 'Allure-2.34.0' // Name from Global Tool Configuration
+        }   
     environment {
         NODE_ENV = 'test'
     }
@@ -43,17 +46,12 @@ pipeline {
             }
         }
 
-        stage('Generate Allure Report') {
+       stage('Generate Allure Report') {
             steps {
-                script {
-                    // Generate the Allure report from the results folder
-                    sh 'allure generate /var/jenkins_home/workspace/playwrightwebauto/allure-results --clean -o /var/jenkins_home/workspace/playwrightwebauto/allure-report'
-                    
-                    // Debugging: Check if the report was generated
-                    sh 'ls -al /var/jenkins_home/workspace/playwrightwebauto/allure-report'  // Ensure the report was generated
-                }
+                sh 'allure generate allure-results --clean -o allure-report'
             }
         }
+
 
         stage('Archive Allure Results') {
             steps {
@@ -68,21 +66,33 @@ pipeline {
                 allure([
                     includeProperties: false,
                     jdk: '',
-                    results: [[path: '/var/jenkins_home/workspace/playwrightwebauto/allure-results']]
+                    results: [[path: 'allure-results']]
                 ])
+
             }
         }   
     }
 
     post {
-        always {
-            echo 'Pipeline execution finished.'
-        }
         success {
             echo '✅ Tests passed!'
+
+            // Publish Allure HTML report
+            publishHTML(target: [
+                reportName: 'Allure Report',
+                reportDir: 'allure-report',
+                reportFiles: 'index.html',
+                keepAll: true,
+                alwaysLinkToLastBuild: true,
+                allowMissing: false
+            ])
         }
         failure {
             echo '❌ Tests failed!'
         }
+        always {
+            echo 'Pipeline execution finished.'
+        }
     }
+
 }
