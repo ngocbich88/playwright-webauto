@@ -5,7 +5,7 @@ import { time } from 'console';
 
 let homePage: HomePage;
 
-Given('I open the application', async () => {
+Given('I open the application', { timeout: 30000 }, async () => {
   homePage = new HomePage(getPage());
   await homePage.navigate();
 });

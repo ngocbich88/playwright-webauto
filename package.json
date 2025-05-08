@@ -12,6 +12,7 @@
   "devDependencies": {
     "@cucumber/cucumber": "^11.2.0",
     "@cucumber/messages": "^27.2.0",
+    "@playwright/test": "^1.52.0",
     "@shelex/cypress-allure-plugin": "^2.41.0",
     "@types/node": "^22.14.1",
     "allure-cucumberjs": "^3.2.1",
