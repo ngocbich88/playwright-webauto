@@ -17,8 +17,22 @@ class CustomWorld {
   }
 
   async cleanup() {
-    await this.browser.close();
-  }
+    if (this.page) {
+      await this.page.close();
+    }
+  
+    if (this.context) {
+      await this.context.close();
+    }
+  
+    if (this.browser) {
+      await this.browser.close();
+    }
+  
+    this.page = undefined as any;
+    this.context = undefined as any;
+    this.browser = undefined as any;
+  }  
 
   getPage(): Page {
     return this.page;
