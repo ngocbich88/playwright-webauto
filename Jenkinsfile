@@ -6,6 +6,7 @@ pipeline {
         }   
     environment {
         NODE_ENV = 'test'
+        // TEST_ENV = 'sit'
     }
 
     stages {
@@ -75,7 +76,7 @@ pipeline {
 
     post {
         success {
-            echo '✅ Tests passed!'
+            echo 'Tests passed!'
 
             // Publish Allure HTML report
             publishHTML(target: [

@@ -1,10 +1,20 @@
-Feature: Home page
+  Feature: Login
+    As a registered user,
+    I want to log into the application,
+    So that I can access my personalized dashboard.
 
-  Scenario: Open the home page
-    Given I open the application
-    Then I should see the home page
+    Background:
+      Given the user is on the login page
 
-  Scenario: Login with SQL injection
-    Given I open the application
-    When I login with username "admin" and password "101 OR 1=1"
-    Then I should see the forbidden page
+    Scenario: Successful login
+      When I login with username "nguyenngockhmt@gmail.com" and password "ngocngoc8892"
+      Then I should see the dashboard
+
+    Scenario Outline: Failed login
+      When I login with username "<username>" and password "<password>"
+      Then I should see validation messages
+
+      Examples:
+          | username                     | password        | # comment                        |
+          | #$#                          | ngocngoc889     | # invalid username               |
+          | nguyenngockhmt@email         | $$%%%           | # invalid password               |
